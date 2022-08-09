@@ -1,16 +1,15 @@
 package ru.job4j.forum.controller;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.job4j.forum.model.User;
 import ru.job4j.forum.service.UserService;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.Optional;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class AuthController {
@@ -28,37 +27,34 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public String signup(Model model, @ModelAttribute User user, HttpServletRequest req) {
-        Optional<User> regUser = userService.save(user);
-        if (regUser.isEmpty()) {
-            return "redirect:/signup?fail=true";
+    public String signup(@ModelAttribute User user) {
+        userService.save(user);
+        return "redirect:/login";
+    }
+
+    @GetMapping("/login")
+    public String login(
+            Model model,
+            @RequestParam(value = "error", required = false) String error,
+            @RequestParam(value = "logout", required = false) String logout
+    ) {
+        String errorMessage = null;
+        if (error != null) {
+            errorMessage = "Username or Password is incorrect !!";
         }
-        HttpSession session = req.getSession();
-        session.setAttribute("user", regUser.get());
-        return "redirect:/index";
-    }
-
-    @GetMapping("/signin")
-    public String signin(Model model, @RequestParam(name = "fail", required = false) Boolean fail) {
-        model.addAttribute("user", new User());
-        model.addAttribute("fail", fail != null);
-        return "auth/signin";
-    }
-
-    @PostMapping("/signin")
-    public String signin(@ModelAttribute User user, HttpServletRequest req) {
-        Optional<User> userOptional = userService.findByName(user.getName());
-        if (userOptional.isEmpty()) {
-            return "redirect:/signin?fail=true";
+        if (logout != null) {
+            errorMessage = "You have been successfully logged out !!";
         }
-        HttpSession session = req.getSession();
-        session.setAttribute("user", userOptional.get());
-        return "redirect:/index";
+        model.addAttribute("errorMessage", errorMessage);
+        return "auth/login";
     }
 
-    @GetMapping("/signout")
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/index";
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/login?logout=true";
     }
 }

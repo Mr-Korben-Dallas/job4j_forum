@@ -10,11 +10,11 @@
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
                         <a class="nav-item nav-link active" th:href="@{/}">Главная <span class="sr-only">(current)</span></a>
-                        <a class="nav-item nav-link" th:if="${user.id != null}">
+                        <a class="nav-item nav-link" th:if="${user != null}">
                             <a class="nav-item nav-link" th:href="@{/addpost}">Добавить пост</a>
-                            <a class="nav-item nav-link" th:href="@{/signout}">Выйти</a>
+                            <a class="nav-item nav-link" th:href="@{/logout}">Выйти</a>
                         </a>
-                        <a class="nav-item nav-link" th:if="${user.id == null}">
+                        <a class="nav-item nav-link" th:if="${user == null}">
                             <a class="nav-item nav-link" th:href="@{/signup}">Регистрация</a>
                         </a>
                     </div>

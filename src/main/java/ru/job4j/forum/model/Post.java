@@ -14,22 +14,6 @@ public class Post {
     private String description;
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    public static Post of(String name, String description) {
-        Post post = new Post();
-        post.name = name;
-        post.description = description;
-        return post;
-    }
-
-    public Post() {
-    }
-
-    public Post(Long id, String name, String description) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-    }
-
     public Long getId() {
         return id;
     }

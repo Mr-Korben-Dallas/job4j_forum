@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head th:replace="~{fragments/head :: head}"></head>
+    <body>
+        <div th:insert="~{fragments/navigation-menu :: navigation}"></div>
+        <div class="container pt-3">
+            <div class="row">
+                <div class="card" style="width: 100%">
+                    <div class="card-header">
+                        Авторизация
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                            <div th:text="${errorMessage}"/>
+                        </div>
+                        <form th:action="@{/login}" method="POST">
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="username" name="username">
+                                <label for="username">User name</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="password" class="form-control" id="password" name="password">
+                                <label for="password">Password</label>
+                            </div>
+                            <hr class="my-4">
+                            <button type="submit" class="w-100 btn btn-lg btn-primary">Авторизация</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </body>
+</html>
