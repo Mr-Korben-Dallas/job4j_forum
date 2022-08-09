@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head th:replace="~{fragments/head :: head}"/>
+    <body>
+        <div th:insert="~{fragments/navigation-menu :: navigation}"/>
+        <div class="container">
+            <div class="row">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Имя</th>
+                            <th scope="col">Описание</th>
+                            <th scope="col">Дата добавления</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="post : ${posts}">
+                            <td th:text="${post.id}" />
+                            <td>
+                                <a th:href="@{|/post/${post.id}|}">
+                                    <span th:text="${post.name}" />
+                                </a>
+                            </td>
+                            <td th:text="${post.description}" />
+                            <td th:text="${#temporals.format(post.createdAt, 'dd-MM-yyyy HH:mm')}" />
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>
