@@ -14,10 +14,10 @@ public class UserService {
     }
 
     public Optional<User> save(User user) {
-        return repository.save(user);
+        return Optional.of(repository.save(user));
     }
 
-    public Optional<User> findByName(User user) {
-        return repository.findByName(user);
+    public Optional<User> findByName(String name) {
+        return Optional.ofNullable(repository.findByName(name));
     }
 }

@@ -47,7 +47,7 @@ public class AuthController {
 
     @PostMapping("/signin")
     public String signin(@ModelAttribute User user, HttpServletRequest req) {
-        Optional<User> userOptional = userService.findByName(user);
+        Optional<User> userOptional = userService.findByName(user.getName());
         if (userOptional.isEmpty()) {
             return "redirect:/signin?fail=true";
         }

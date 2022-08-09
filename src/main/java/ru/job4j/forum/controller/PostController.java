@@ -64,7 +64,7 @@ public class PostController {
 
     @PostMapping("/updatepost")
     public String updatePost(@ModelAttribute Post post) {
-        postService.update(post);
+        postService.save(post);
         return "redirect:/index";
     }
 

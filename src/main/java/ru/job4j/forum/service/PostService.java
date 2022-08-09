@@ -14,7 +14,9 @@ public class PostService {
     }
 
     public Collection<Post> findAll() {
-        return repository.findAll();
+        Collection<Post> posts = new ArrayList<>();
+        repository.findAll().forEach(posts::add);
+        return posts;
     }
 
     public void save(Post post) {
@@ -23,9 +25,5 @@ public class PostService {
 
     public Optional<Post> findById(Long id) {
         return repository.findById(id);
-    }
-
-    public void update(Post post) {
-        repository.update(post);
     }
 }
