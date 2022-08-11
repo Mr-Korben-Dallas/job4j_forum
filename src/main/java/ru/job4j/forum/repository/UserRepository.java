@@ -6,5 +6,4 @@ import ru.job4j.forum.model.User;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
-    User findByUsername(String name);
 }

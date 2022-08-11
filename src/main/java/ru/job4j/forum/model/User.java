@@ -11,7 +11,7 @@ public class User {
     private Long id;
     private String username;
     private String password;
-    private boolean enabled;
+    private boolean enabled = true;
     @ManyToOne
     @JoinColumn(name = "authority_id")
     private Authority authority;
